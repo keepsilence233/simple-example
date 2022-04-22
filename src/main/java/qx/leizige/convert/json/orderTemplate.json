@@ -1,0 +1,40 @@
+{
+  "time:localDateTime::createTime:localDateTime": "",
+  "supplier::supplierCode": "",
+  "type:short::originType:short": "",
+  "orderList::orderLineList": [
+    {
+      "skunumber::orderLineList[${_index}].skuCode": "",
+      "skuname::orderLineList[${_index}].skuName": "",
+      "spuname::orderLineList[${_index}].spuName": "",
+      "spunumber::orderLineList[${_index}].spuCode": "",
+      "itemList_n::orderLineList[${_index}].itemList": [
+        {
+          "itemList_item_A::orderLineList[${_index}].itemList[${_index}].one": "",
+          "itemList_item_B::orderLineList[${_index}].itemList[${_index}].two": ""
+        }
+      ]
+    }
+  ],
+  "skuList::orderSkuList": [
+    {
+      "skunumber::orderSkuList[${_index}].skuCode": "",
+      "skuname::orderSkuList[${_index}].skuName": "",
+      "spuname::orderSkuList[${_index}].spuName": "",
+      "spunumber::orderSkuList[${_index}].spuCode": "",
+      "property::orderSkuList[${_index}].propertyList": [
+        {
+          "property::orderSkuList[${_index}].propertyList[${_index}].propertyName": "",
+          "value::orderSkuList[${_index}].propertyList[${_index}].propertyValue": ""
+        }
+      ],
+      "image::orderSkuList[${_index}].imageList": [
+        {
+          "name::orderSkuList[${_index}].imageList[${_index}].imageName:string": "",
+          "url:string::orderSkuList[${_index}].imageList[${_index}].imageUrl:string": "",
+          "sort:short::orderSkuList[${_index}].imageList[${_index}].imageSort:short": ""
+        }
+      ]
+    }
+  ]
+}

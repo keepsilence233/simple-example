@@ -1,0 +1,25 @@
+/**
+* newProp:int::oldProp:short::converter
+**/
+{
+  "param1:string::interfaceType:string": "",
+  "param2::count": 0,
+  "param3::synTime": "",
+  "param4":{
+    "receiveArea::items[0].item.receiveArea": "",
+    "relatedDocCode::items[0].item.relatedDocCode": 0,
+    "shipToEntityCode::count": 0
+  },
+  "idf::id": 0,
+  "itemList": [
+    {
+      "itemId::interfaceType": "",
+      "item": {
+        "receiveArea::items[0].item.receiveArea": "",
+        "relatedDocCode::items[0].item.relatedDocCode": 0,
+        "shipToEntityCode::count": 0
+      },
+      "action::items[0].item.receiveArea": ""
+    }
+  ]
+}
