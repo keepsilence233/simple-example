@@ -1,6 +1,6 @@
 package qx.leizige.test.convert;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 import qx.leizige.convert.json.JsonConverter;
 import qx.leizige.test.BaseTest;
@@ -32,10 +32,40 @@ public class JsonConvertTest extends BaseTest {
             "}";
 
     @Test
-    public  void test(){
-        JSONObject jsonObject = JsonConverter.rebuildJson(jsonTemplate, oldJsonStr);
-        System.out.println(jsonObject);
+    public void jsonObjectTest() {
+        JSON json = JsonConverter.rebuildJson(jsonTemplate, oldJsonStr);
+        System.out.println(json.toJSONString());
     }
+
+
+
+    String oldJsonArrayStr = "[\n" +
+            "    {\n" +
+            "        \"itemList\":[\n" +
+            "            {\n" +
+            "                \"id\":\"Test-20211109\",\n" +
+            "                \"itemName\":\"奈飞夹克\",\n" +
+            "                \"skuId\":\"Test-001\"\n" +
+            "            }\n" +
+            "        ]\n" +
+            "    },\n" +
+            "    {\n" +
+            "        \"itemList\":[\n" +
+            "            {\n" +
+            "                \"id\":\"Test-20211108\",\n" +
+            "                \"itemName\":\"耐克球鞋\",\n" +
+            "                \"skuId\":\"Test-002\"\n" +
+            "            }\n" +
+            "        ]\n" +
+            "    }\n" +
+            "]";
+
+    @Test
+    public void jsonArrayTest() {
+        JSON json = JsonConverter.rebuildJson(jsonTemplate, oldJsonArrayStr);
+        System.out.println(JSON.toJSONString(json,true));
+    }
+
 
     @Override
     public void before() {

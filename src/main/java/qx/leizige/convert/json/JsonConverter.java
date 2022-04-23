@@ -1,5 +1,6 @@
 package qx.leizige.convert.json;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
@@ -32,16 +33,41 @@ public class JsonConverter implements StringPool {
      * @param requestOldJson 源json文件
      * @return 要生成的json对象
      */
-    public static JSONObject rebuildJson(String jsonTemplate, String requestOldJson) {
-        if (isJsonObj(requestOldJson)) {
-            JSONObject jsonRebuildResult = new JSONObject(16, true);
-            JSONObject jsonObj = (JSONObject) JSONObject.parse(requestOldJson);
-            JSONObject jsonFormatTemplate = (JSONObject) JSONObject.parse(jsonTemplate, Feature.OrderedField);
-            transform(jsonRebuildResult, jsonFormatTemplate, jsonObj);
-            return jsonRebuildResult;
+    public static JSON rebuildJson(String jsonTemplate, String requestOldJson) {
+        if (!isJsonObj(requestOldJson)) {
+            throw new IllegalArgumentException("oldJson formal error!");
         }
-        throw new IllegalArgumentException("oldJson formal error!");
+        Object obj = JSON.parse(requestOldJson);
+        if (obj instanceof JSONObject) {
+            return buildJsonObject(jsonTemplate, obj);
+        } else if (obj instanceof JSONArray) {
+            JSONArray jsonArrayRebuildResult = new JSONArray();
+            JSONArray jsonArrayObject = (JSONArray) obj;
+            for (Object object : jsonArrayObject) {
+                JSONObject jsonObject = buildJsonObject(jsonTemplate, object);
+                jsonArrayRebuildResult.add(jsonObject);
+            }
+            return jsonArrayRebuildResult;
+        } else {
+            throw new IllegalArgumentException("unknown object type!");
+        }
     }
+
+    /**
+     * 构建类型为为jsonObject的对象
+     *
+     * @param jsonTemplate json转换模版
+     * @param obj          源json对象
+     * @return jsonObject
+     */
+    private static JSONObject buildJsonObject(String jsonTemplate, Object obj) {
+        JSONObject jsonRebuildResult = new JSONObject(16, true);
+        JSONObject jsonObject = (JSONObject) obj;
+        JSONObject jsonFormatTemplate = (JSONObject) JSONObject.parse(jsonTemplate, Feature.OrderedField);
+        transform(jsonRebuildResult, jsonFormatTemplate, jsonObject);
+        return jsonRebuildResult;
+    }
+
 
     /**
      * 类型转换器核心方法 根据模板和json对象生成新的json对象
@@ -49,7 +75,7 @@ public class JsonConverter implements StringPool {
      * @param targetResult   将要生成的json对象
      * @param formatTemplate 转换模板（配置方式请参考jsonTemplate.json）
      * @param srcJsonObj     源json文件
-//     * @param index          集合所在下标 example 1::2
+     *                       //     * @param index          集合所在下标 example 1::2
      * @return 要生成的json对象
      */
     private static JSONObject transform(JSONObject targetResult, JSONObject formatTemplate, JSONObject srcJsonObj) {
@@ -110,6 +136,14 @@ public class JsonConverter implements StringPool {
     }
 
 
+    /**
+     * 根据源json文件构建新的json数组
+     *
+     * @param old_valueJsonArray 旧的json数组
+     * @param srcJsonObj         源json文件
+     * @param oldDataArrayName   旧的json数组名称
+     * @return 新构建的json数组，size = 源json文件中json数组的长度
+     */
     private static JSONArray rebuildJsonArray(JSONArray old_valueJsonArray, JSONObject srcJsonObj, String oldDataArrayName) {
         JSONArray new_valueJsonArray = new JSONArray();
         for (int i = 0; i < JSONPath.size(srcJsonObj.toString(), ROOT_OBJECT + oldDataArrayName); i++) {
@@ -132,6 +166,12 @@ public class JsonConverter implements StringPool {
     }
 
 
+    /**
+     * 判断是否为源json是否为json字符串
+     *
+     * @param json jsonStr
+     * @return boolean
+     */
     public static boolean isJsonObj(String json) {
         try {
             JSONObject.parse(json);
