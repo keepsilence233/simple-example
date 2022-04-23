@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,5 +25,5 @@ public class TemplateEntity implements Serializable {
 
     private Long parentId;
 
-
+    List<TemplateEntity> templateList;
 }
